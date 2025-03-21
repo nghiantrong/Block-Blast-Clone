@@ -19,6 +19,7 @@ public class BlockDrag : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndD
 
     public void OnDrag(PointerEventData eventData)
     {
+
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
