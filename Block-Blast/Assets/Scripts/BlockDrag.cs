@@ -13,24 +13,50 @@ public class BlockDrag : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndD
     {
         rectTransform = GetComponent<RectTransform>();
         originalPosition = rectTransform.anchoredPosition;
-
         canvas = GetComponentInParent<Canvas>();
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        rectTransform.anchoredPosition = originalPosition;
+        bool allSnapped = true;
+
+        // Check if all block pieces are snapped
+        foreach (Transform piece in transform)
+        {
+            BlockSnap snapScript = piece.GetComponent<BlockSnap>();
+            if (snapScript != null && !snapScript.IsSnapped())
+            {
+                allSnapped = false;
+                break;
+            }
+        }
+
+        if (allSnapped)
+        {
+            foreach (Transform piece in transform)
+            {
+                BlockSnap snapScript = piece.GetComponent<BlockSnap>();
+                if (snapScript != null)
+                {
+                    snapScript.SnapToCell();
+                }
+            }
+            Debug.Log("Block successfully snapped!");
+        }
+        else
+        {
+            rectTransform.anchoredPosition = originalPosition;
+            Debug.Log("Block failed to snap, returning to original position.");
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         transform.SetAsLastSibling();
     }
-
 }
