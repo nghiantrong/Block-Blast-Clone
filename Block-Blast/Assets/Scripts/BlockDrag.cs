@@ -9,6 +9,10 @@ public class BlockDrag : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndD
     private Vector2 originalPosition;
     private Canvas canvas;
 
+    private Vector2 offsetPosition;
+    private float moveUpAmount = 150f;
+    private float moveUpDuration = 0.1f;
+
     void Start()
     {
         rectTransform = GetComponent<RectTransform>();
@@ -50,7 +54,9 @@ public class BlockDrag : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndD
         }
         else
         {
-            rectTransform.anchoredPosition = originalPosition;
+            // rectTransform.anchoredPosition = originalPosition;
+            LeanTween.move(rectTransform, originalPosition, 0.2f)
+                .setEase(LeanTweenType.easeInOutQuad);
             Debug.Log("Block failed to snap, returning to original position.");
         }
     }
@@ -58,5 +64,13 @@ public class BlockDrag : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndD
     public void OnPointerDown(PointerEventData eventData)
     {
         transform.SetAsLastSibling();
+
+        Vector2 targetPosition = new Vector2(rectTransform.anchoredPosition.x + moveUpAmount * 0.2f, 
+                                         rectTransform.anchoredPosition.y + moveUpAmount);
+
+        LeanTween.move(rectTransform, targetPosition, moveUpDuration)
+                .setEase(LeanTweenType.easeOutQuad);
+
+        offsetPosition = (Vector2)rectTransform.position - eventData.position;
     }
 }

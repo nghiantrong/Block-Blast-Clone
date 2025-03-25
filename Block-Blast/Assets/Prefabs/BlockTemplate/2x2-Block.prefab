@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 606558673372721941}
   - component: {fileID: 2199127750038750176}
   - component: {fileID: 7579464321823232238}
+  - component: {fileID: 5786645061300457478}
   m_Layer: 0
   m_Name: 2x2-Block
   m_TagString: Untagged
@@ -73,6 +74,19 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &5786645061300457478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1195194626082874274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 671d9204698394792a5d7fb1674e8978, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  randomColors: []
 --- !u!1 &3008273399649054878
 GameObject:
   m_ObjectHideFlags: 0
