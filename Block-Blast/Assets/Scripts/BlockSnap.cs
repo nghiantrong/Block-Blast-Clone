@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BlockSnap : MonoBehaviour
 {
     private Vector3 originalPosition;
     private GameObject snappedCell;
     private BlockDrag blockDrag;
+    private float snapTolerance = 25f;
 
     void Start()
     {
@@ -21,8 +23,20 @@ public class BlockSnap : MonoBehaviour
     {
         if (snappedCell != null)
         {
-            transform.position = snappedCell.transform.position;
-            Debug.Log($"Block piece {name} snapped to {snappedCell.name}");
+            Vector3 targetPosition = snappedCell.transform.position;
+            Debug.Log($"Distance to cell: {Vector3.Distance(transform.position, snappedCell.transform.position)}");
+
+            float distance = Vector3.Distance(transform.position, targetPosition);
+            if (distance <= snapTolerance)
+            {
+                transform.position = snappedCell.transform.position;
+                Debug.Log($"Block piece {name} snapped to {snappedCell.name}");
+            }
+            else
+            {
+                Debug.Log($"Block piece {name} is too far to snap.");
+            }
+
         }
         else
         {
@@ -37,6 +51,7 @@ public class BlockSnap : MonoBehaviour
         if (other.CompareTag("GridCell"))
         {
             snappedCell = other.gameObject;
+
             Debug.Log($"Block piece {name} entered {snappedCell.name}");
         }
     }
@@ -48,6 +63,8 @@ public class BlockSnap : MonoBehaviour
         if (other.CompareTag("GridCell") && snappedCell == other.gameObject)
         {
             snappedCell = null;
+
+
             Debug.Log($"Block piece {name} exited {other.gameObject.name}");
         }
     }

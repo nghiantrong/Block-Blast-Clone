@@ -50,6 +50,7 @@ public class BlockDrag : MonoBehaviour, IPointerDownHandler, IDragHandler, IEndD
                     snapScript.SnapToCell();
                 }
             }
+            FindObjectOfType<BlockSpawner>().OnBlockPlaced();
             Debug.Log("Block successfully snapped!");
         }
         else

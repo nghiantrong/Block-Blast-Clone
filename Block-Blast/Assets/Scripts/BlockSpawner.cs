@@ -8,6 +8,7 @@ public class BlockSpawner : MonoBehaviour
     public List<GameObject> blockPrefabs;
     public Transform blockHolder;
     public int blocksPerTurn = 3;
+    private int placedBlocks = 0;
 
     void Start()
     {
@@ -16,10 +17,12 @@ public class BlockSpawner : MonoBehaviour
 
     private void SpawnBlocks()
     {
-        foreach (Transform child in blockHolder)
-        {
-            Destroy(child.gameObject);
-        }
+        // foreach (Transform child in blockHolder)
+        // {
+        //     Destroy(child.gameObject);
+        // }
+
+        placedBlocks = 0;
 
         for (int i = 0; i < blocksPerTurn; i++)
         {
@@ -44,6 +47,15 @@ public class BlockSpawner : MonoBehaviour
             {
                 layoutElement.ignoreLayout = true;
             }
+        }
+    }
+
+    public void OnBlockPlaced()
+    {
+        placedBlocks++;
+        if (placedBlocks >= blocksPerTurn)
+        {
+            SpawnBlocks();
         }
     }
 }
